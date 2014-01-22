@@ -22,9 +22,21 @@ Or install it yourself as:
 $ gem install rack-back_door
 ```
 
-## Usage
+# Usage
 
-#### Usage in Rails tests
+By default, `Rack::BackDoor` will handle the following URL:
+
+```
+http://example.com?as=1
+```
+
+By injecting `1` into the `session` as `user_id`
+
+```ruby
+session[:user_id]   # => 1
+```
+
+## Setup in Rails tests
 
 Add the middleware to your stack in the `config/environments/test.rb` file
 
@@ -47,7 +59,7 @@ MyApplication::Application.configure do |config|
 end
 ```
 
-#### Usage in Sinatra Tests
+## Setup in Sinatra Tests
 
 Add to your sinatra application:
 
@@ -70,6 +82,30 @@ MySinatraApplication.configure do
   use Rack::BackDoor
 end
 ```
+
+## Configuration
+
+You can configure the following:
+
+* `session_key` - The key used to hold the `user_id` in the session
+* `url_parameter` - The query parameter the middleware will use as the `user_id` value
+
+```ruby
+# When configured with these values and passed the following URL
+#
+#   http://example.com?login=1
+#
+# The middleware will set the session like so
+#
+#   session[:user]  # => 1
+#
+Rack::BackDoor.configure do |config|
+  config.session_key   = "user"
+  config.url_parameter = "login"
+end
+```
+
+In your `spec/spec_helper.rb`, or any other testing setup file
 
 ## Contributing
 
