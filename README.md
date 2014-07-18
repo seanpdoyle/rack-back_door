@@ -84,11 +84,11 @@ You can configure the following:
 * `session_key` - The key used to hold the `user_id` in the session
 * `url_parameter` - The query parameter the middleware will use as the `user_id` value
 
- When configured with these values and passed the following URL
+When configured with these values and passed the following URL
 
    http://example.com?login=1
 
- The middleware will set the session like so
+The middleware will set the session like so
 
 ```ruby
 session[:user]  #=> 1
