@@ -41,6 +41,17 @@ class Rack::BackDoorTest < Minitest::Test
     assert env_authenticated_with?(env, "user" => 1)
   end
 
+  def test_sign_into_back_door_configurable
+    middleware = Rack::BackDoor.new(app, session_key: "user") do |env, user_id|
+      env["custom.thingy"] = user_id
+    end
+    request = request_for("http://example.com?as=1")
+
+    _, env = middleware.call(request)
+
+    assert_equal "1", env["custom.thingy"]
+  end
+
   def request_for(url, **options)
     Rack::MockRequest.env_for(url, options)
   end

@@ -120,6 +120,17 @@ MyApplication::Application.configure do |config|
 end
 ```
 
+Additionally, you can override the middleware to alter the `rack` request any
+way you see fit by configuring the `middleware` with a block.
+
+For instance, in `sinatra`:
+
+```ruby
+use Rack::BackDoor do |env, user_id|
+  env['my.user'] = User.find(user_id)
+end
+```
+
 ## Contributing
 
 1. Fork it
