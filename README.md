@@ -1,5 +1,8 @@
 # Rack::BackDoor
 
+[![Build
+Status](https://travis-ci.org/seanpdoyle/rack-back_door.svg)](https://travis-ci.org/seanpdoyle/rack-back_door)
+
 Inject a user into a session for integration and controller tests.
 
 ## Installation
@@ -50,15 +53,6 @@ MyApplication::Application.configure do |config|
 end
 ```
 
-or, in `rspec` spec helper
-
-```ruby
-# spec/spec_helper.rb
-MyApplication::Application.configure do |config|
-  config.middleware.use Rack::BackDoor
-end
-```
-
 ## Setup in Sinatra Tests
 
 Add to your sinatra application:
@@ -90,22 +84,41 @@ You can configure the following:
 * `session_key` - The key used to hold the `user_id` in the session
 * `url_parameter` - The query parameter the middleware will use as the `user_id` value
 
+ When configured with these values and passed the following URL
+
+   http://example.com?login=1
+
+ The middleware will set the session like so
+
 ```ruby
-# When configured with these values and passed the following URL
-#
-#   http://example.com?login=1
-#
-# The middleware will set the session like so
-#
-#   session[:user]  # => 1
-#
-Rack::BackDoor.configure do |config|
-  config.session_key   = "user"
-  config.url_parameter = "login"
+session[:user]  #=> 1
+```
+
+To configure the middleware in a `sinatra` app:
+
+```ruby
+# app.rb
+class MySinatraApplication < Sinatra::Base
+  enable :sessions
+
+  if environment == "test"
+    use Rack::BackDoor, session_key: "user", url_parameter: "login"
+  end
+
+  # ...
 end
 ```
 
-In your `spec/spec_helper.rb`, or any other testing setup file
+To configure the middleware in a `rails` app:
+
+```ruby
+# config/test.rb
+MyApplication::Application.configure do |config|
+# ...
+  config.middleware.use "Rack::BackDoor", session_key: "user", url_parameter: "login"
+# ...
+end
+```
 
 ## Contributing
 
