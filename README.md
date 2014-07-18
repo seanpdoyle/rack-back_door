@@ -5,6 +5,8 @@ Status](https://travis-ci.org/seanpdoyle/rack-back_door.svg)](https://travis-ci.
 
 Inject a user into a session for integration and controller tests.
 
+Inspired by [thoughtbot's](http://thoughtbot.com) [clearance](https://github.com/thoughtbot/clearance/blob/b2f4b240a8ee2dbb1e8679274aa188629f2e3796/lib/clearance/back_door.rb) gem
+
 ## Installation
 
 Add this line to your application's Gemfile:
