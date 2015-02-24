@@ -12,6 +12,7 @@ class Rack::BackDoorTest < Minitest::Test
     _, env = middleware.call(request)
 
     refute env_authenticated_with?(env, "user_id" => 1)
+    refute env_created_session?(env)
   end
 
   def test_authenticates_user_from_url_parameter
@@ -63,6 +64,10 @@ class Rack::BackDoorTest < Minitest::Test
     signed_in_user = session[session_key].to_i
 
     user_id.to_i == signed_in_user
+  end
+
+  def env_created_session?(env)
+    not env["rack_session"].nil?
   end
 
   def app

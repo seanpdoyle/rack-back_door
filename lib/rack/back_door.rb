@@ -28,7 +28,7 @@ class Rack::BackDoor
   def sign_in_through_the_back_door
     if sign_in
       sign_in.call(env, user_id)
-    else
+    elsif ! user_id.to_s.empty?
       session[session_key] = user_id
     end
   end
