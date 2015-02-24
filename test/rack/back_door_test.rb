@@ -53,7 +53,7 @@ class Rack::BackDoorTest < Minitest::Test
     assert_equal "1", env["custom.thingy"]
   end
 
-  def request_for(url, **options)
+  def request_for(url, options = {})
     Rack::MockRequest.env_for(url, options)
   end
 
